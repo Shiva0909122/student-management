@@ -1,4 +1,4 @@
-const backendURL = 'http://localhost:5000';
+const backendURL = 'https://student-management-ltao.onrender.com/';
 
 $('#studentForm').on('submit', async function (e) {
     e.preventDefault();
