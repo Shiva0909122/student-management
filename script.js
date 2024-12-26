@@ -1,23 +1,63 @@
-const backendURL = 'https://student-management-ltao.onrender.com/';
+// const backendURL = 'https://student-management-ltao.onrender.com/';
+
+// $('#studentForm').on('submit', async function (e) {
+//     e.preventDefault();
+//     const name = $('#studentName').val();
+//     const email = $('#studentEmail').val();
+//     const mobile = $('#studentMobile').val();
+//     const course = $('#course').val();
+
+//     try {
+//         const response = await fetch(`${backendURL}/addStudent`, {
+//             method: 'POST',
+//             headers: { 'Content-Type': 'application/json' },
+//             body: JSON.stringify({ name, email, mobile, course }),
+//         });
+//         const result = await response.json();
+//         alert(result.message);
+//         this.reset();
+//     } catch (error) {
+//         alert('Failed to add student.');
+//     }
+// });
+const backendURL = 'https://student-management-ltao.onrender.com';
 
 $('#studentForm').on('submit', async function (e) {
     e.preventDefault();
-    const name = $('#studentName').val();
-    const email = $('#studentEmail').val();
-    const mobile = $('#studentMobile').val();
-    const course = $('#course').val();
+
+    // Collect input values
+    const name = $('#studentName').val().trim();
+    const email = $('#studentEmail').val().trim();
+    const mobile = $('#studentMobile').val().trim();
+    const course = $('#course').val().trim();
+
+    // Basic client-side validation
+    if (!name || !email || !mobile || !course) {
+        alert('All fields are required.');
+        return;
+    }
 
     try {
+        // Send POST request to backend
         const response = await fetch(`${backendURL}/addStudent`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, email, mobile, course }),
         });
+
+        // Handle response
         const result = await response.json();
-        alert(result.message);
-        this.reset();
+
+        if (response.ok) {
+            alert(result.message); // Success message from server
+            $('#studentForm')[0].reset(); // Clear the form
+        } else {
+            // Show server-side validation errors
+            alert(result.error || 'Failed to add student.');
+        }
     } catch (error) {
-        alert('Failed to add student.');
+        console.error('Error:', error);
+        alert('Failed to add student. Please try again later.');
     }
 });
 
